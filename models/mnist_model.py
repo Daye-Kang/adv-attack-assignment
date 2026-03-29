@@ -3,6 +3,9 @@ MNIST 분류기
 - 간단한 CNN (Conv2d x2 + FC layers)
 - 목표 정확도: >= 95%
 """
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 import torch
 import torch.nn as nn
 
