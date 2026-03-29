@@ -46,9 +46,9 @@ def train_cifar10(epochs=5, lr=0.001, device="cpu"):
     """
     # 데이터 전처리
     # - EfficientNet_B0은 ImageNet 기준 정규화를 기대함
-    # - CIFAR-10은 32x32이므로 224x224로 리사이즈
+    # - CIFAR-10은 32x32; AdaptiveAvgPool로 가변 입력 가능해 64로만 업스케일
     transform_train = transforms.Compose([
-        transforms.Resize(224),
+        transforms.Resize(64),
         transforms.RandomHorizontalFlip(),  # 학습 시 데이터 증강
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],   # ImageNet 평균
@@ -56,7 +56,7 @@ def train_cifar10(epochs=5, lr=0.001, device="cpu"):
     ])
 
     transform_test = transforms.Compose([
-        transforms.Resize(224),
+        transforms.Resize(64),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225]),
@@ -68,8 +68,8 @@ def train_cifar10(epochs=5, lr=0.001, device="cpu"):
     test_data = datasets.CIFAR10(root="./data", train=False, download=True,
                                  transform=transform_test)
 
-    train_loader = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=4)
-    test_loader = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=4)
+    train_loader = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=0)
+    test_loader = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=0)
 
     # 모델 준비
     model = build_cifar10_model(device)
