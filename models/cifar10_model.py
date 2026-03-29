@@ -68,8 +68,8 @@ def train_cifar10(epochs=5, lr=0.001, device="cpu"):
     test_data = datasets.CIFAR10(root="./data", train=False, download=True,
                                  transform=transform_test)
 
-    train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
-    test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
+    train_loader = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=4)
+    test_loader = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=4)
 
     # 모델 준비
     model = build_cifar10_model(device)
